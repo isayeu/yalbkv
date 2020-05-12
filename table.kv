@@ -1,0 +1,50 @@
+<TableView@ScrollView>:
+	canvas:
+		Color:
+			rgb: 0, 1, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+    #self.layout.spacing = 10, 10
+
+<TableView@ScrollView@GridLayout>:
+    spacing: 10, 10
+
+<TableRow>:
+	#size_hint: 1, None
+	size: self.width, "8pt"
+    #padding: 0, 0, 0, 0
+	#padding: "1pt", "1pt", "1pt", "1pt"
+	#valign: "center"
+	canvas.before:
+		Color:
+			rgba: 1, 1, 1, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+	canvas:
+		Color:
+			rgb: 1, 0, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+<TableCell>:
+	size_hint: 1, "8pt"
+	size: self.width, "8pt"
+	font_size: "6pt"
+	#font_name: "DejaVuSansMono"
+	border: 0, 0, 0, 0
+	#padding: "1pt", "1pt", "1pt", "1pt"
+	spacing: 0, 0
+	hint_text: self.column.hint_text
+	multiline: False
+	background_color: 0.8, 0.8, 0.8, 1
+	foreground_color: 0.2, 0.2, 0.7, 1
+	readonly: True
+	canvas.before:
+	    Color:
+	        rgb: 0.2, 0.4, 0.4
+	    Rectangle:
+	        pos: self.pos
+	        size: self.size

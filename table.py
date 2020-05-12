@@ -1,0 +1,173 @@
+import sys
+from kivy.uix.widget import Widget
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.textinput import TextInput
+from kivy.properties import StringProperty, ObjectProperty
+from kivy.uix.label import Label
+
+class TableColumn(Widget):
+    '''
+    A column provides a shared method of cell construction,
+    data access, and data updates.
+    Assumes that underlying data is accessable via data[key].
+    ''' # TODO optionally print title in a header
+
+    title = StringProperty()
+    hint_text = StringProperty()
+
+    # TODO different widths
+    def __init__(self, title, key,
+            update_function=(lambda row, new_value: None),
+            hint_text='',
+            size_hint=(1.0, 1.0)):
+        self.title = title
+        self.key = key
+        self.update_function = update_function
+        self.hint_text = hint_text
+        self.size_hint = size_hint
+
+    def get_cell(self, row, size_hint):
+        return TableCell(self, row, size_hint)
+
+    def on_cell_edit(self, row, new_value):
+        self.update_function(row, new_value)
+
+
+class TableRow(BoxLayout):
+    '''
+    A layout which contains the row cells and pointers to the data.
+    '''
+    def __init__(self, table, index, size_hints=None):
+        super(TableRow, self).__init__(orientation='horizontal')
+        self.table = table
+        self.index = index
+        #self.size_hint = (1, 1)
+        for i, col in enumerate(self.table.columns):
+            c = col.get_cell(self, size_hints[i])
+            #print(c.size_hint)
+            #c.size_hint = (random.randint(5, 10), 1)
+            self.table.layout.add_widget(c)
+
+    def data(self, key):
+        return self.table.data_rows[self.index][key]
+
+    def set_data(self, key, value):
+        self.table.data_rows[self.index][key] = value
+
+    def update(self):
+        '''
+        Reload data for all cells.
+        '''
+        for cell in self.children:
+            cell.update()
+
+    def move_focus(self, index_diff, column):
+        '''
+        Move focus from a cell in this row to the corresponding
+        cell in the row with index_diff offset to this row.
+        '''
+        self.table.set_focus(self.index + index_diff, column)
+
+    def focus_on_cell(self, column):
+        for cell in self.children:
+            if cell.column == column:
+                cell.focus = True
+                break
+
+    def scroll_into_view(self):
+        self.table.scroll_to(self)
+
+
+#class TableCell(TextInput):
+class TableCell(Label):
+    '''
+    A single cell, formatted and updated according to column,
+    with data from row.
+    '''
+    row = ObjectProperty(None, True)
+    column = ObjectProperty(None, True)
+
+    MOVEMENT_KEYS = {'up': -1, 'down': 1,
+        'pageup': -sys.maxsize, 'pagedown': sys.maxsize }
+
+    def __init__(self, column, row, size_hint):
+        self.column = column
+        self.row = row
+        super(TableCell, self).__init__()
+        self.size_hint = size_hint
+        self.update()
+    
+    def update(self):
+        ''' Reset text to data from row '''
+        self.text = str(self.row.data(self.column.key))
+
+    def on_text_validate(self):
+        ''' Let column validate and possibly update the input '''
+        self.column.on_cell_edit(self.row, self.text)
+
+    def on_focus(self, instance, value):
+        if value:
+            self.row.scroll_into_view()
+        else:
+            self.update()
+
+    def keyboard_on_key_down(self, window, keycode, text, modifiers):
+        '''
+        Check for special navigation keys, otherwise call super.
+        '''
+        # TODO is on_text_validate() called for tab and s-tab?
+        if keycode[1] in self.MOVEMENT_KEYS:
+            self.on_text_validate()
+            self.focus = False
+            self.row.move_focus(self.MOVEMENT_KEYS[keycode[1]], self.column)
+        else:
+            super(TableCell, self).keyboard_on_key_down(window, keycode, text, modifiers)
+
+
+class TableView(ScrollView):
+    '''
+    A scrollable table where each row corresponds to a data point
+    and each column to a specific attribute of the data points.
+    Currently, each attribute is an editable field.
+    '''
+    # TODO allow for different cell types, update doc
+    # TODO overscroll background color
+    def __init__(self, size, pos_hint):
+        super(TableView, self).__init__(size_hint=(None, 1), size=size,
+            pos_hint=pos_hint, do_scroll_x=False)
+
+        self.layout = GridLayout(cols=1,
+            size_hint=(None, None), width=size[0])
+        self.layout.bind(width=self.setter('width')) # TODO test size changes
+        self.layout.bind(minimum_height=self.layout.setter('height'))
+        self.columns = []
+        self.column_hints = []
+        self.data_rows = []
+        self.layout_rows = []
+        self.add_widget(self.layout)
+
+    def add_column(self, column, size_hint=(1, 1)):
+        self.columns.append(column)
+        self.column_hints.append(size_hint)
+        # TODO test row update
+        for row in self.layout_rows:
+            # TODO update column widths
+            row.add_widget(column.get_cell(row))
+        self.layout.cols = len(self.columns)
+        self.layout.spacing = 1, 1
+
+    def add_row(self, data):
+        self.data_rows.append(data)
+        l = len(self.data_rows)-1
+        row = TableRow(self, l, size_hints=self.column_hints)
+        self.layout_rows.append(row)
+        #for cell in row.children:
+        #    self.layout.add_widget(cell)
+
+    def set_focus(self, row_index, column):
+        if len(self.layout_rows) == 0:
+            return
+        row_index = min(max(row_index, 0), len(self.layout_rows)-1)
+        self.layout_rows[row_index].focus_on_cell(column)

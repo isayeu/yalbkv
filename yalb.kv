@@ -1,0 +1,346 @@
+#:include table.kv
+#:import MDList kivymd.list.MDList
+#:import MDCard kivymd.card.MDCard
+#:import MDTextField kivymd.textfields.MDTextField
+
+
+BoxLayout:
+    orientation: 'vertical'
+
+
+    ScreenManager:
+        id: sm
+        Screen:
+            id: scr_main
+            name: 'Main'
+            canvas.before:
+                Color:
+                    rgb: 1, 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            BoxLayout:
+                #orientation: "vertical"
+                BoxLayout:
+                    orientation: "vertical"
+                    padding: pt(0)
+                    ScrollView:
+                        size_hint: 1, 1
+                        GridLayout:
+                            size_hint: 1, None
+                            height: self.minimum_height
+                            cols: 2
+                            padding: pt(10), 0
+                            MDTextField:
+                                halign: "left"
+                                text: "Flight TSO - 505"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "description"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "Aircraft ID"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "VP-BYT"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "Aircraft type"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "Boeing 737-400"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "From"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "UUDD Domodedovo"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "To"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "UMKK Khrabrovo"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "Off Block Time"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "2045-05-09 02:45"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "Take Off Time"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "2045-05-09 02:58"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "Landing Time"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "2045-05-09 05:21"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "On Block Time"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "2045-05-09 05:34"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "Total Time"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "02:36"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "Air Time"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "02:23"
+                                disabled: True
+                            MDTextField:
+                                halign: "left"
+                                text: "Night Time"
+                                disabled: True
+                            MDTextField:
+                                halign:"right"
+                                text: "01:02"
+                                disabled: True
+                #Button:
+
+                ScrollView:
+                    id: sv_log
+                    size_hint: 0.5, 1
+                    GridLayout:
+                        cols: 1
+                        spacing: -15
+                        size_hint: 1, None
+                        height: self.minimum_height
+                        MDList:
+                            #theme_text_color: 'Secondary'
+                            text_color: 1, 1, 0, 1
+                            TwoLineListItem:
+                                text: 'UUDD - 02:36 - UMKK'
+                                secondary_text: 'Flight: TSO - 505 Date: 2045-05-09'
+                        MDList:
+                            #theme_text_color: 'Secondary'
+                            text_color: 1, 1, 0, 1
+                            TwoLineListItem:
+                                text: 'UUDD - 02:36 - UMKK'
+                                secondary_text: 'Flight: TSO - 505 Date: 2045-05-09'
+                        MDList:
+                            #theme_text_color: 'Secondary'
+                            text_color: 1, 1, 0, 1
+                            TwoLineListItem:
+                                text: 'UUDD - 02:36 - UMKK'
+                                secondary_text: 'Flight: TSO - 505 Date: 2045-05-09'
+                        MDList:
+                            #theme_text_color: 'Secondary'
+                            text_color: 1, 1, 0, 1
+                            TwoLineListItem:
+                                text: 'UUDD - 02:36 - UMKK'
+                                secondary_text: 'Flight: TSO - 505 Date: 2045-05-09'
+                        MDList:
+                            #theme_text_color: 'Secondary'
+                            text_color: 1, 1, 0, 1
+                            TwoLineListItem:
+                                text: 'UUDD - 02:36 - UMKK'
+                                secondary_text: 'Flight: TSO - 505 Date: 2045-05-09'
+                        MDList:
+                            #theme_text_color: 'Secondary'
+                            text_color: 1, 1, 0, 1
+                            TwoLineListItem:
+                                text: 'UUDD - 02:36 - UMKK'
+                                secondary_text: 'Flight: TSO - 505 Date: 2045-05-09'
+                        MDList:
+                            #theme_text_color: 'Secondary'
+                            text_color: 1, 1, 0, 1
+                            TwoLineListItem:
+                                text: 'UUDD - 02:36 - UMKK'
+                                secondary_text: 'Flight: TSO - 505 Date: 2045-05-09'
+                        MDList:
+                            #theme_text_color: 'Secondary'
+                            text_color: 1, 1, 0, 1
+                            TwoLineListItem:
+                                text: 'UUDD - 02:36 - UMKK'
+                                secondary_text: 'Flight: TSO - 505 Date: 2045-05-09'
+                        MDList:
+                            #theme_text_color: 'Secondary'
+                            text_color: 1, 1, 0, 1
+                            TwoLineListItem:
+                                text: 'UUDD - 02:36 - UMKK'
+                                secondary_text: 'Flight: TSO - 505 Date: 2045-05-09'
+
+                        MDList:
+                            #theme_text_color: 'Secondary'
+                            text_color: 1, 1, 0, 1
+                            TwoLineListItem:
+                                text: 'UUDD - 02:36 - UMKK'
+                                secondary_text: 'Flight: TSO - 505 Date: 2045-05-09'
+
+                        #Button:
+                        #    size_hint_y: None
+                        #    size: 1, pt(40)
+                        #    text: "buttonX"
+        Screen:
+            id: scr_second
+            name: 'Second'
+
+        Screen:
+            id: scr_edit
+            name: 'Edit'
+            BoxLayout:
+                orientation: "vertical"
+                BoxLayout:
+                    spacing: dp(40)
+                    orientation: 'vertical'
+                    size_hint_x: None
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    BoxLayout:
+                        orientation: 'vertical'
+                        # size_hint: (None, None)
+                        MDRaisedButton:
+                            text: "Open time picker"
+                            size_hint: None, None
+                            size: 3 * dp(48), dp(48)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            opposite_colors: True
+                            on_release: app.show_example_time_picker()
+                        MDLabel:
+                            id: time_picker_label
+                            theme_text_color: 'Primary'
+                            size_hint: None, None
+                            size: dp(48)*3, dp(48)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        BoxLayout:
+                            size: dp(48)*3, dp(48)
+                            size_hint: (None, None)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            MDLabel:
+                                theme_text_color: 'Primary'
+                                text: "Start on previous time"
+                                size_hint: None, None
+                                size: dp(130), dp(48)
+                            MDCheckbox:
+                                id: time_picker_use_previous_time
+                                size_hint: None, None
+                                size: dp(48), dp(48)
+                    BoxLayout:
+                        orientation: 'vertical'
+                        MDRaisedButton:
+                            text: "Open date picker"
+                            size_hint: None, None
+                            size: 3 * dp(48), dp(48)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            opposite_colors: True
+                            on_release: app.show_example_date_picker()
+                        MDLabel:
+                            id: date_picker_label
+                            theme_text_color: 'Primary'
+                            size_hint: None, None
+                            size: dp(48)*3, dp(48)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        BoxLayout:
+                            size: dp(48)*3, dp(48)
+                            size_hint: (None, None)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            MDLabel:
+                                theme_text_color: 'Primary'
+                                text: "Start on previous date"
+                                size_hint: None, None
+                                size: dp(130), dp(48)
+                            MDCheckbox:
+                                id: date_picker_use_previous_date
+                                size_hint: None, None
+                                size: dp(48), dp(48)
+        Screen:
+            id: scr_debug
+            name: 'debug'
+            BoxLayout:
+                orientation: 'vertical'
+                BoxLayout:
+                    Button:
+                        text: "vasya"
+                    Button:
+                        text: "TWO"
+            GridLayout:
+                cols: 2
+                spacing: 10, 10
+                BoxLayout:
+                    Image:
+                        source: "32x32.png"
+                        allow_stretch: True
+                        color: 1, 0, 0, 1
+                BoxLayout:
+                    Image:
+                        source: "32x32.png"
+                        allow_stretch: True
+                        color: 1, 1, 0, 1
+                BoxLayout:
+                    Image:
+                        source: "1x1.png"
+                        allow_stretch: True
+                        color: 0, 0, 1, 1
+                BoxLayout:
+                    Image:
+                        source: "1x1.png"
+                        allow_stretch: True
+                        color: 1, 1, 1, 1
+                    Image:
+                        source: "1x1.png"
+                        allow_stretch: True
+                        color: 1, 1, 1, 1
+                TextInput:
+                    text: "asdf"
+                    padding: 0, 0, 0, 0
+                TextInput:
+                    text: "2asdf"
+                    padding: 0, 0, 0, 0
+
+    ActionBar:
+        ActionView:
+            id: av
+            ActionPrevious:
+                id: ap
+                title: sm.current_screen.name
+                with_previous: False
+            ActionButton:
+                id: new
+                text: 'New Leg'
+                on_release: app.scr_edit()
+                important: True
+            ActionButton:
+                id: edit
+                text: 'Edit Leg'
+                on_release:
+                    app.scr_edit()
+                important: True
+            ActionButton:
+                text: '<'
+                on_release: app.screen_prev()
+                important: True
+            ActionButton:
+                text: '>'
+                on_release: app.screen_next()
+                important: True
