@@ -12,9 +12,9 @@
 
 <TableRow>:
 	#size_hint: 1, None
-	size: self.width, "8pt"
+	size: self.width, pt(8)
     #padding: 0, 0, 0, 0
-	#padding: "1pt", "1pt", "1pt", "1pt"
+	#padding: pt(1), pt(1), pt(1), pt(1)
 	#valign: "center"
 	canvas.before:
 		Color:
@@ -30,12 +30,13 @@
 			size: self.size
 
 <TableCell>:
-	size_hint: 1, "8pt"
-	size: self.width, "8pt"
-	font_size: "6pt"
+	size_hint: 1, pt(8)
+	#size: self.width, pt(8)
+	size: 4*pt(8), pt(8)
+	font_size: pt(6)
 	#font_name: "DejaVuSansMono"
 	border: 0, 0, 0, 0
-	#padding: "1pt", "1pt", "1pt", "1pt"
+	#padding: pt(1), pt(1), pt(1), pt(1)
 	spacing: 0, 0
 	hint_text: self.column.hint_text
 	multiline: False
