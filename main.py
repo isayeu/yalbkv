@@ -91,8 +91,9 @@ class YalbApp(App):
 
     def build(self):
         table = TV(
-            size=(Window.size[0], 1),
+            size=(Window.size[0], Window.size[1]),
             pos_hint={'x': 0.0, 'y': 0.0},
+            do_scroll_x=True,
         )
         table.populate("log.db")
         #print(str(table))

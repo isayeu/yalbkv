@@ -134,9 +134,9 @@ class TableView(ScrollView):
     '''
     # TODO allow for different cell types, update doc
     # TODO overscroll background color
-    def __init__(self, size, pos_hint):
-        super(TableView, self).__init__(size_hint=(None, 1), size=size,
-            pos_hint=pos_hint, do_scroll_x=False)
+    def __init__(self, size, pos_hint, **kwargs):
+        super(TableView, self).__init__(size_hint=(1, 1), size=size,
+            pos_hint=pos_hint, **kwargs)
 
         self.layout = GridLayout(cols=1,
             size_hint=(None, None), width=size[0])
