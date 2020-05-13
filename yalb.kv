@@ -218,155 +218,177 @@ BoxLayout:
         Screen:
             id: scr_edit
             name: 'Edit'
-            BoxLayout:
-                orientation: "vertical"
-                #pos_hint: {'center_x': 0.5, 'center_y': 1.0}
-                padding: pt(10), pt(1)
-                spacing: pt(4)
-                MDTextField:
-                    size_hint_y: None
-                    size: 1, self.minimum_height
-                    halign: "center"
-                    text: "Flight Edit"
-                    disabled: True
+            ScrollView:
+                size_hint: 1, 1
                 BoxLayout:
-                    size_hint_y: None
-                    size: 1, pt(14)
-                    spacing: pt(10)
-                    Button:
-                        text: "Date"
-                        size_hint: None, 1
-                        width: pt(50)
-                        opposite_colors: True
-                        on_release: app.show_date_picker()
-                    TextInput:
-                        id: date_picker_input
-                        size: 20*pt(10), 1
-                        hint_text: '0000-00-00'
-                        height: self.minimum_height
-                        multiline: False
-                BoxLayout:
-                    size_hint_y: None
-                    size: 1, pt(14)
-                    spacing: pt(10)
-                    Button:
-                        text: "Flight No"
-                        size_hint: None, 1
-                        width: pt(50)
-                        opposite_colors: True
-                        on_release: app.show_date_picker()
-                    TextInput:
-                        id: flight_no_item_input
-                        hint_text: 'TSO-333'
-                        height: self.minimum_height
-                        multiline: False
-                BoxLayout:
-                    size_hint_y: None
-                    size: 1, pt(14)
-                    spacing: pt(10)
-                    Button:
-                        text: "Aircraft ID"
-                        size_hint: None, 1
-                        width: pt(50)
-                        opposite_colors: True
-                        on_release: app.show_date_picker()
-                    TextInput:
-                        id: flight_no_item_input
-                        hint_text: 'VP-BYT'
-                        height: self.minimum_height
-                        multiline: False
-                BoxLayout:
-                    size_hint_y: None
-                    size: 1, pt(14)
-                    spacing: pt(10)
-                    Button:
-                        text: "From"
-                        size_hint: None, 1
-                        width: pt(50)
-                        opposite_colors: True
-                        on_release: app.show_date_picker()
-                    TextInput:
-                        id: flight_no_item_input
-                        hint_text: 'ICAO or IATA'
-                        height: self.minimum_height
-                        multiline: False
-                    Button:
-                        text: "To"
-                        size_hint: None, 1
-                        width: pt(50)
-                        opposite_colors: True
-                        on_release: app.show_date_picker()
-                    TextInput:
-                        id: flight_no_item_input
-                        hint_text: 'ICAO or IATA'
-                        height: self.minimum_height
-                        multiline: False
-                BoxLayout:
-                    size_hint_y: None
-                    size: 1, pt(14)
-                    spacing: pt(10)
-                    Button:
-                        text: "Off Block"
-                        size_hint: None, 1
-                        width: pt(50)
-                        opposite_colors: True
-                        on_release: app.show_time_picker()
-                    TextInput:
-                        id: block_off_item_input
-                        hint_text: 'ICAO or IATA'
-                        height: self.minimum_height
-                        multiline: False
-                    Button:
-                        text: "Take Off"
-                        size_hint: None, 1
-                        width: pt(50)
-                        opposite_colors: True
-                        on_release: app.show_time_picker()
-                    TextInput:
-                        id: flight_no_item_input
-                        hint_text: 'ICAO or IATA'
-                        height: self.minimum_height
-                        multiline: False
-                BoxLayout:
-                    size_hint_y: None
-                    size: 1, pt(14)
-                    spacing: pt(10)
-                    Button:
-                        text: "On Block"
-                        size_hint: None, 1
-                        width: pt(50)
-                        opposite_colors: True
-                        on_release: app.show_time_picker()
-                    TextInput:
-                        id: block_off_item_input
-                        hint_text: 'ICAO or IATA'
-                        height: self.minimum_height
-                        multiline: False
-                    Button:
-                        text: "Landing"
-                        size_hint: None, 1
-                        width: pt(50)
-                        opposite_colors: True
-                        on_release: app.show_time_picker()
-                    TextInput:
-                        id: flight_no_item_input
-                        hint_text: 'ICAO or IATA'
-                        height: self.minimum_height
-                        multiline: False
+                    orientation: "vertical"
+                    size_hint: 1, None
+                    height: self.minimum_height
+                    #pos_hint: {'center_x': 0.5, 'center_y': 1.0}
+                    padding: pt(10), pt(1)
+                    spacing: pt(4)
+                    MDTextField:
+                        size_hint_y: None
+                        size: 1, self.minimum_height
+                        halign: "center"
+                        text: "Flight Edit"
+                        disabled: True
+                    BoxLayout:
+                        size_hint_y: None
+                        size: 1, pt(14)
+                        spacing: pt(10)
+                        Button:
+                            text: "Date"
+                            size_hint: None, 1
+                            width: pt(50)
+                            opposite_colors: True
+                            on_release: app.show_date_picker()
+                        TextInput:
+                            id: date_picker_input
+                            size_hint: None, 1
+                            width: 10*pt(5)
+                            hint_text: '0000-00-00'
+                            height: self.minimum_height
+                            multiline: False
+                    BoxLayout:
+                        size_hint_y: None
+                        size: 1, pt(14)
+                        spacing: pt(10)
+                        width: self.minimum_width
+                        Button:
+                            text: "Flight No"
+                            size_hint: None, 1
+                            width: pt(50)
+                            opposite_colors: True
+                            on_release: app.show_date_picker()
+                        TextInput:
+                            id: flight_no_item_input
+                            hint_text: 'TSO-333'
+                            size_hint: None, 1
+                            width: 10*pt(5)
+                            height: self.minimum_height
+                            multiline: False
+                    BoxLayout:
+                        size_hint_y: None
+                        size: 1, pt(14)
+                        spacing: pt(10)
+                        Button:
+                            text: "Aircraft ID"
+                            size_hint: None, 1
+                            width: pt(50)
+                            opposite_colors: True
+                            on_release: app.show_date_picker()
+                        TextInput:
+                            id: flight_no_item_input
+                            hint_text: 'VP-BYT'
+                            size_hint: None, 1
+                            width: 10*pt(5)
+                            height: self.minimum_height
+                            multiline: False
+                    BoxLayout:
+                        size_hint_y: None
+                        size: 1, pt(14)
+                        spacing: pt(10)
+                        Button:
+                            text: "From"
+                            size_hint: None, 1
+                            width: pt(50)
+                            opposite_colors: True
+                            on_release: app.show_date_picker()
+                        TextInput:
+                            id: flight_no_item_input
+                            hint_text: 'ICAO or IATA'
+                            size_hint: None, 1
+                            width: 10*pt(5)
+                            height: self.minimum_height
+                            multiline: False
+                        Button:
+                            text: "To"
+                            size_hint: None, 1
+                            width: pt(50)
+                            opposite_colors: True
+                            on_release: app.show_date_picker()
+                        TextInput:
+                            id: flight_no_item_input
+                            hint_text: 'ICAO or IATA'
+                            size_hint: None, 1
+                            width: 10*pt(5)
+                            height: self.minimum_height
+                            multiline: False
+                    BoxLayout:
+                        size_hint_y: None
+                        size: 1, pt(14)
+                        spacing: pt(10)
+                        Button:
+                            text: "Off Block"
+                            size_hint: None, 1
+                            width: pt(50)
+                            opposite_colors: True
+                            on_release: app.show_time_picker()
+                        TextInput:
+                            id: block_off_item_input
+                            hint_text: '00:00'
+                            size_hint: None, 1
+                            width: 10*pt(5)
+                            height: self.minimum_height
+                            multiline: False
+                        Button:
+                            text: "Take Off"
+                            size_hint: None, 1
+                            width: pt(50)
+                            opposite_colors: True
+                            on_release: app.show_time_picker()
+                        TextInput:
+                            id: flight_no_item_input
+                            hint_text: '00:00'
+                            size_hint: None, 1
+                            width: 10*pt(5)
+                            height: self.minimum_height
+                            multiline: False
+                    BoxLayout:
+                        size_hint_y: None
+                        size: 1, pt(14)
+                        spacing: pt(10)
+                        Button:
+                            text: "On Block"
+                            size_hint: None, 1
+                            width: pt(50)
+                            opposite_colors: True
+                            on_release: app.show_time_picker()
+                        TextInput:
+                            id: block_off_item_input
+                            hint_text: '00:00'
+                            size_hint: None, 1
+                            width: 10*pt(5)
+                            height: self.minimum_height
+                            multiline: False
+                        Button:
+                            text: "Landing"
+                            size_hint: None, 1
+                            width: pt(50)
+                            opposite_colors: True
+                            on_release: app.show_time_picker()
+                        TextInput:
+                            id: flight_no_item_input
+                            hint_text: '00:00'
+                            size_hint: None, 1
+                            width: 10*pt(5)
+                            height: self.minimum_height
+                            multiline: False
 
-                BoxLayout:
-                    size_hint: None, None
-                    size: dp(48)*3, dp(48)
-                    #pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    MDLabel:
-                        theme_text_color: 'Primary'
-                        text: "Start on previous time"
+                    BoxLayout:
                         size_hint: None, None
-                        size: dp(180), dp(48)
-                    MDCheckbox:
-                        id: time_picker_use_previous_time
-                        size_hint: None, None
-                        size: dp(48), dp(48)
+                        size: dp(48)*3, dp(48)
+                        #pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        MDLabel:
+                            theme_text_color: 'Primary'
+                            text: "Start on previous time"
+                            size_hint: None, None
+                            size: dp(180), dp(48)
+                        MDCheckbox:
+                            id: time_picker_use_previous_time
+                            size_hint: None, None
+                            size: dp(48), dp(48)
         Screen:
             id: scr_debug
             name: 'debug'
