@@ -2,20 +2,22 @@
 
 import sqlite3
 
-from kivy.app import App
 from kivy.properties import ListProperty
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition, FadeTransition
-from kivymd.date_picker import MDDatePicker
+from kivy.properties import ObjectProperty
+from kivy.uix.splitter import Splitter
 
-from kivymd.theming import ThemeManager
-from kivymd.label import MDLabel
-from kivymd.button import MDRaisedButton
-from kivymd.selectioncontrols import MDCheckbox
-from kivymd.time_picker import MDTimePicker
+from kivymd.app import MDApp
+#from kivymd.theming import ThemeManager
+from kivymd.uix.picker import MDDatePicker
+from kivymd.uix.picker import MDTimePicker
+from kivymd.uix.label import MDLabel
+from kivymd.uix.button import MDRaisedButton
+from kivymd.uix.selectioncontrol import MDCheckbox
 
 from table import TableView, TableColumn
 
@@ -84,10 +86,10 @@ class TV(TableView):
         return self
 
 
-
-class YalbApp(App):
+class YalbApp(MDApp):
     title = "Yet Another LogBook"
-    theme_cls = ThemeManager()
+#    theme_cls = ThemeManager()
+    previous_date = ObjectProperty()
 
     def build(self):
         table = TV(
@@ -120,10 +122,10 @@ class YalbApp(App):
         self.on_rotate(0)
 
     def get_time_picker_data(self, instance, time):
-        self.root.ids.time_picker_label.text = str(time)
+        self.root.ids.block_off_item_input.text = str(time)
         self.previous_time = time
 
-    def show_example_time_picker(self):
+    def show_time_picker(self):
         self.time_dialog = MDTimePicker()
         self.time_dialog.bind(time=self.get_time_picker_data)
         if self.root.ids.time_picker_use_previous_time.active:
@@ -135,17 +137,14 @@ class YalbApp(App):
 
     def set_previous_date(self, date_obj):
         self.previous_date = date_obj
-        self.root.ids.date_picker_label.text = str(date_obj)
+        self.root.ids.date_picker_input.text = str(date_obj)
 
-    def show_example_date_picker(self):
-        if self.root.ids.date_picker_use_previous_date.active:
-            pd = self.previous_date
-            try:
-                MDDatePicker(self.set_previous_date,
-                             pd.year, pd.month, pd.day).open()
-            except AttributeError:
-                MDDatePicker(self.set_previous_date).open()
-        else:
+    def show_date_picker(self):
+        pd = self.previous_date
+        try:
+            MDDatePicker(self.set_previous_date,
+                         pd.year, pd.month, pd.day).open()
+        except AttributeError:
             MDDatePicker(self.set_previous_date).open()
 
     def scr_edit(self):
