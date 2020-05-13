@@ -101,10 +101,22 @@ class YalbApp(App):
 
 
 
+        def _on_rotate(obj, *args):
+            #print(*args)
+            self.on_rotate(*args)
+        Window.bind(on_rotate=_on_rotate)
+        Window.bind(on_resize=_on_rotate)
 
 
         #scr2.add_widget(RV())
         print("Vsykuyu hernyu delat tut")
+
+    def on_rotate(self, angle, *args):
+        table = self.root.ids.scr_second.children[0].children[0]
+        table.layout.width = max(Window.size[0], Window.size[1])
+
+    def on_refresh(self):
+        self.on_rotate(0)
 
     def get_time_picker_data(self, instance, time):
         self.root.ids.time_picker_label.text = str(time)
