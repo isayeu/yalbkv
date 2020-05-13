@@ -100,9 +100,7 @@ class YalbApp(MDApp):
         table.populate("log.db")
         #print(str(table))
         self.root.ids.sm.transition = NoTransition()
-        self.root.ids.scr_second.add_widget(table)
-
-
+        self.root.ids.scr_second_box.add_widget(table)
 
         def _on_rotate(obj, *args):
             #print(*args)
