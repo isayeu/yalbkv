@@ -5,20 +5,14 @@ import datetime
 
 from kivy.properties import ListProperty
 from kivy.core.window import Window
-from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition, FadeTransition
+from kivy.uix.screenmanager import NoTransition
 from kivy.properties import ObjectProperty
-from kivy.uix.splitter import Splitter
+
 
 from kivymd.app import MDApp
-#from kivymd.theming import ThemeManager
 from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.picker import MDTimePicker
-from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDRaisedButton
-from kivymd.uix.selectioncontrol import MDCheckbox
 
 from table import TableView, TableColumn
 
@@ -94,6 +88,7 @@ class YalbApp(MDApp):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.time_dialog = MDTimePicker()
         self.previous_time = datetime.datetime.utcnow()
 
     def build(self):
@@ -117,6 +112,9 @@ class YalbApp(MDApp):
         #scr2.add_widget(RV())
         print("Vsykuyu hernyu delat tut")
 
+    def new_leg(self):
+        pass
+
     def get_id(self, instance):
         for id, widget in self.root.ids.items():
             if widget.__self__ == instance:
@@ -133,7 +131,7 @@ class YalbApp(MDApp):
         name = self.get_id(instance)
         if not name:
             return
-        self.root.ids[name + "_item_input"].text = str(time)
+        self.root.ids[name + "_item_input"].text = str(time)[:-3]
         self.previous_time = time
 
     def show_time_picker(self, instance):
