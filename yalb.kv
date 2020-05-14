@@ -302,7 +302,7 @@ BoxLayout:
                             width: pt(12)
                             #on_release: app.show_date_picker()
                         TextInput:
-                            id: flight_no_item_input
+                            id: aircraft_id_item_input
                             hint_text: 'Aircraft ID'
                             size_hint: None, 1
                             width: 10*pt(4)
@@ -331,7 +331,7 @@ BoxLayout:
                             width: pt(12)
                             #on_release: app.show_date_picker()
                         TextInput:
-                            id: flight_no_item_input
+                            id: from_item_input
                             hint_text: 'From'
                             size_hint: None, 1
                             width: 10*pt(4)
@@ -360,7 +360,7 @@ BoxLayout:
                             width: pt(12)
                             #on_release: app.show_date_picker()
                         TextInput:
-                            id: flight_no_item_input
+                            id: to_item_input
                             hint_text: 'To'
                             size_hint: None, 1
                             width: 10*pt(4)
@@ -371,7 +371,7 @@ BoxLayout:
                             size_hint: None, 1
                             width: pt(33)
                             background_color: 0, 0, 1, 1
-                            #on_release: app.show_date_picker()
+                            on_release: app.new_leg()
 
         Screen:
             id: scr_debug
@@ -381,6 +381,8 @@ BoxLayout:
                 BoxLayout:
                     Button:
                         text: "vasya"
+                        on_release: app.new_leg()
+
                     Button:
                         text: "TWO"
             GridLayout:

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import sqlite3
-import datetime
+import ephem
+from datetime import datetime, timedelta
+import math
 
 from kivy.properties import ListProperty
 from kivy.core.window import Window
@@ -36,7 +38,9 @@ class RV(BoxLayout):
             print(row)
             for col in (*row, ''):
                 self.data_items.append(col)
-
+        cursor.close()
+        if connection:
+            connection.close()
 
 class TV(TableView):
     def __init__(self, **kwargs):
@@ -78,6 +82,9 @@ class TV(TableView):
             row_dict = dict(zip(headers, row))
             #print(row_dict)
             self.add_row(row_dict)
+        cursor.close()
+        if connection:
+            connection.close()
         return self
 
 
@@ -89,7 +96,7 @@ class YalbApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.time_dialog = MDTimePicker()
-        self.previous_time = datetime.datetime.utcnow()
+        self.previous_time = datetime.utcnow()
 
     def build(self):
         table = TV(
@@ -112,8 +119,87 @@ class YalbApp(MDApp):
         #scr2.add_widget(RV())
         print("Vsykuyu hernyu delat tut")
 
+    def calculate_night_time(self, coords_departure, coords_arrival, takeoff, landing):
+        if landing < takeoff:
+            landing += timedelta(days=1)
+
+        departure_ap = ephem.Observer()
+        departure_ap.lat = math.radians(coords_departure[0])
+        departure_ap.lon = math.radians(coords_departure[1])
+        arrival_ap = ephem.Observer()
+        arrival_ap.lat = math.radians(coords_arrival[0])
+        arrival_ap.lon = math.radians(coords_arrival[1])
+        departure_ap.date = takeoff
+        arrival_ap.date = takeoff + timedelta(days=(departure_ap.lon - arrival_ap.lon) / math.pi / 12.0)
+
+        s = ephem.Sun()
+        plane = ephem.Observer()
+        plane.date = takeoff
+        flight_time_minutes = int((landing - takeoff).total_seconds() // 60)
+        print("ldgt-to in minutes:", flight_time_minutes, "HH:MM :", timedelta(hours=flight_time_minutes / 60.0))
+        dlat = (arrival_ap.lat - departure_ap.lat) / flight_time_minutes
+        dlon = (arrival_ap.lon - departure_ap.lon) / flight_time_minutes
+        dt = timedelta(seconds=60)
+        nt = 0
+        for i in range(flight_time_minutes):
+            plane.date = takeoff + dt * float(i + 0.5)
+            plane.lat = departure_ap.lat + dlat * float(i)
+            plane.lon = departure_ap.lon + dlon * float(i)
+            try:
+                if plane.next_rising(s) < plane.next_setting(s):
+                    nt += 1
+            except ephem.NeverUpError:
+                nt += 1
+            except ephem.AlwaysUpError:
+                pass
+        nt = timedelta(hours=nt / 60.0)
+        return nt
+
     def new_leg(self):
-        pass
+        date = self.root.ids.date_picker_input.text
+        flightno = self.root.ids.flight_no_item_input.text
+        acno = self.root.ids.aircraft_id_item_input.text
+        fromap = self.root.ids.from_item_input.text
+        toap = self.root.ids.to_item_input.text
+        ofbt = self.root.ids.offblock_item_input.text
+        tot = self.root.ids.takeoff_item_input.text
+        lt = self.root.ids.landing_item_input.text
+        onbt = self.root.ids.onblock_item_input.text
+
+        offblocktime = datetime.strptime(date + " " + ofbt, "%Y-%m-%d %H:%M")
+        onblocktime = datetime.strptime(date + " " + onbt, "%Y-%m-%d %H:%M")
+        takeofftime = datetime.strptime(date + " " + tot, "%Y-%m-%d %H:%M")
+        landingtime = datetime.strptime(date + " " + lt, "%Y-%m-%d %H:%M")
+
+        if offblocktime > onblocktime:  # Check next day
+            onblocktime += timedelta(days=1)
+        blktime = onblocktime - offblocktime
+
+        if landingtime < takeofftime:  # Check next day
+            landingtime += timedelta(days=1)
+        flttime = landingtime - takeofftime
+
+        #coords_departure = self.get_ap_coords(fromap)
+        coords_departure = (51.8779638888889, -176.646030555556)
+        #coords_arrival = self.get_ap_coords(toap)
+        coords_arrival = (44.814998626709, 136.292007446289)
+        takeoff = takeofftime
+        landing = landingtime
+        night_time = self.calculate_night_time(coords_departure, coords_arrival, takeoff, landing)
+
+        connection = sqlite3.connect("log.db")
+        cursor = connection.cursor()
+        sql = "INSERT INTO log ('Date', 'FlightNumber', 'Aircraft', 'AirportDeparture', 'AirportArrival', 'OffBlock', 'TakeOff', 'Landing', 'OnBlock', 'FlightTime', 'BlockTime', 'NightTime')" \
+              " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
+        data = (date, flightno, acno, fromap, toap, ofbt, tot, lt, onbt, str(flttime)[:-3], str(blktime)[:-3], str(night_time)[:-3])
+        cursor.execute(sql, data)
+        connection.commit()
+        cursor.close()
+        if connection:
+            connection.close()
+
+        print(blktime, flttime, night_time)
+        print(date, flightno, acno, fromap, toap, ofbt, tot, lt, onbt)
 
     def get_id(self, instance):
         for id, widget in self.root.ids.items():
