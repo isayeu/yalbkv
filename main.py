@@ -112,6 +112,11 @@ class YalbApp(MDApp):
         #scr2.add_widget(RV())
         print("Vsykuyu hernyu delat tut")
 
+    def get_id(self, instance):
+        for id, widget in self.root.ids.items():
+            if widget.__self__ == instance:
+                return id
+
     def on_rotate(self, angle, *args):
         table = self.root.ids.scr_second.children[0].children[0]
         table.layout.width = max(Window.size[0], Window.size[1])
@@ -120,17 +125,19 @@ class YalbApp(MDApp):
         self.on_rotate(0)
 
     def get_time_picker_data(self, instance, time):
-        self.root.ids.block_off_item_input.text = str(time)
+        name = self.get_id(instance)
+        if not name:
+            return
+        self.root.ids[name + "_item_input"].text = str(time)
         self.previous_time = time
 
-    def show_time_picker(self):
+    def show_time_picker(self, instance):
         self.time_dialog = MDTimePicker()
-        self.time_dialog.bind(time=self.get_time_picker_data)
-        if self.root.ids.time_picker_use_previous_time.active:
-            try:
-                self.time_dialog.set_time(self.previous_time)
-            except AttributeError:
-                pass
+        self.time_dialog.bind(time=lambda x, time: self.get_time_picker_data(instance, time))
+        try:
+            self.time_dialog.set_time(self.previous_time)
+        except AttributeError:
+            pass
         self.time_dialog.open()
 
     def set_previous_date(self, date_obj):
@@ -145,18 +152,22 @@ class YalbApp(MDApp):
         except AttributeError:
             MDDatePicker(self.set_previous_date).open()
 
+    def screen_main(self):
+        sm = self.root.ids.sm
+        sm.switch_to(self.root.ids.scr_main)
+
     def scr_edit(self):
         sm = self.root.ids.sm
         sm.switch_to(self.root.ids.scr_edit)
 
-    def screen_prev(self):
+    def screen_second(self):
         sm = self.root.ids.sm
-        sm.switch_to(self.root.ids.scr_main, direction="right")
+        sm.switch_to(self.root.ids.scr_second)
         self.root.ids.ap.title = sm.current_screen.name
 
-    def screen_next(self):
+    def screen_debug(self):
         sm = self.root.ids.sm
-        sm.switch_to(self.root.ids.scr_second, direction="left")
+        sm.switch_to(self.root.ids.scr_debug)
         self.root.ids.ap.title = sm.current_screen.name
 
 
