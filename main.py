@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sqlite3
+import datetime
 
 from kivy.properties import ListProperty
 from kivy.core.window import Window
@@ -90,6 +91,10 @@ class YalbApp(MDApp):
     title = "Yet Another LogBook"
 #    theme_cls = ThemeManager()
     previous_date = ObjectProperty()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.previous_time = datetime.datetime.utcnow()
 
     def build(self):
         table = TV(
