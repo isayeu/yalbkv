@@ -2,8 +2,10 @@
 
 import sqlite3
 import ephem
+
 from datetime import datetime, timedelta
-import math
+from math import radians
+from math import pi
 
 from kivy.properties import ListProperty
 from kivy.core.window import Window
@@ -17,6 +19,10 @@ from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.picker import MDTimePicker
 
 from table import TableView, TableColumn
+
+
+#class testtesttest(pi):
+#    pass
 
 
 class RV(BoxLayout):
@@ -41,6 +47,7 @@ class RV(BoxLayout):
         cursor.close()
         if connection:
             connection.close()
+
 
 class TV(TableView):
     def __init__(self, **kwargs):
@@ -124,13 +131,13 @@ class YalbApp(MDApp):
             landing += timedelta(days=1)
 
         departure_ap = ephem.Observer()
-        departure_ap.lat = math.radians(coords_departure[0])
-        departure_ap.lon = math.radians(coords_departure[1])
+        departure_ap.lat = radians(coords_departure[0])
+        departure_ap.lon = radians(coords_departure[1])
         arrival_ap = ephem.Observer()
-        arrival_ap.lat = math.radians(coords_arrival[0])
-        arrival_ap.lon = math.radians(coords_arrival[1])
+        arrival_ap.lat = radians(coords_arrival[0])
+        arrival_ap.lon = radians(coords_arrival[1])
         departure_ap.date = takeoff
-        arrival_ap.date = takeoff + timedelta(days=(departure_ap.lon - arrival_ap.lon) / math.pi / 12.0)
+        arrival_ap.date = takeoff + timedelta(days=(departure_ap.lon - arrival_ap.lon) / pi / 12.0)
 
         s = ephem.Sun()
         plane = ephem.Observer()
@@ -188,15 +195,21 @@ class YalbApp(MDApp):
         night_time = self.calculate_night_time(coords_departure, coords_arrival, takeoff, landing)
 
         connection = sqlite3.connect("log.db")
+        print("db_connected debug")
         cursor = connection.cursor()
+        print("cursor_connected debug")
         sql = "INSERT INTO log ('Date', 'FlightNumber', 'Aircraft', 'AirportDeparture', 'AirportArrival', 'OffBlock', 'TakeOff', 'Landing', 'OnBlock', 'FlightTime', 'BlockTime', 'NightTime')" \
               " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
         data = (date, flightno, acno, fromap, toap, ofbt, tot, lt, onbt, str(flttime)[:-3], str(blktime)[:-3], str(night_time)[:-3])
         cursor.execute(sql, data)
+        print("cursor_executedted debug")
         connection.commit()
+        print("connection_commited debug")
         cursor.close()
+        print("cursor_closed debug")
         if connection:
             connection.close()
+        print("conecion_closed debug")
 
         print(blktime, flttime, night_time)
         print(date, flightno, acno, fromap, toap, ofbt, tot, lt, onbt)
