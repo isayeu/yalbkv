@@ -268,3 +268,8 @@ if __name__ == "__main__":
         import sys, traceback
         trace = "".join(traceback.format_exception(*sys.exc_info()))
         print(trace)
+
+        from kivy.base import runTouchApp
+        from bugreport import BugReportPopup
+        popup = BugReportPopup(title="OOPS", text=trace)
+        runTouchApp(popup)
