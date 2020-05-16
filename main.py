@@ -261,4 +261,10 @@ class YalbApp(MDApp):
 
 
 if __name__ == "__main__":
-    YalbApp().run()
+    trace = None
+    try:
+        YalbApp().run()
+    except:
+        import sys, traceback
+        trace = "".join(traceback.format_exception(*sys.exc_info()))
+        print(trace)
